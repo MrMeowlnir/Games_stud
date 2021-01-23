@@ -1,4 +1,5 @@
 from ursina import *
+from game_objects import *
 
 class Game(Ursina):
     def __init__(self):
@@ -6,12 +7,13 @@ class Game(Ursina):
         window.color = color.black
         window.fullscreen_size = 1920, 1080
         window.fullscreen = True
-        Light(type = 'ambient', color = (0.5, 0.5, 0.5, 1))
-        Light(type = 'directional', color = (0.5, 0.5, 0.5, 1), direction = (1, 1, 1))
         self.MAP_SIZE = 20
         self.new_game()
         camera.position = (self.MAP_SIZE // 2, -20.5, -20)
         camera.rotation_x = -57
+        Light(type = 'ambient', color = (0.5, 0.5, 0.5, 1))
+        Light(type = 'directional', color = (0.5, 0.5, 0.5, 1), direction = (1, 1, 1))
+
     def create_map(self, MAP_SIZE):
         Entity(model = 'quad', scale = MAP_SIZE,
                     position = (MAP_SIZE // 2, MAP_SIZE // 2, 0),
@@ -20,15 +22,37 @@ class Game(Ursina):
                     position = (MAP_SIZE // 2, MAP_SIZE // 2, -0.01),
                     color = color.white)
 
-
     def new_game(self):
+        scene.clear()
         self.create_map(self.MAP_SIZE)
+        self.apple = Apple(self.MAP_SIZE, model = 'sphere', color = color.red)
+        self.snake = Snake(self.MAP_SIZE)
 
     def input(self, key):
         super().input(key)
 
+    def check_apple_eaten(self):
+        if self.snake.segment_positions[-1] == self.apple.position:
+            self.snake.add_segment()
+            self.apple.new_position()
+
+    def check_gameover(self):
+        snake = self.snake.segment_positions
+        if (0 < snake[-1][0] < self.MAP_SIZE and
+                0 < snake[-1][1] < self.MAP_SIZE and
+                len(snake) == len(set(snake))):
+            return
+        print_on_screen('GAME OVER', position = (-0.7, 0.1), scale = 10, duration = 1)
+        self.snake.direction = Vec3(0, 0, 0)
+        self.snake.permissions = dict.fromkeys(self.snake.permissions, 0)
+        invoke(self.new_game, delay = 1)
+
     def update(self):
-        pass
+        print_on_screen(f'Score: {self.snake.score}', position = (-0.85, 0.45),
+                        scale = 3, duration = 1 / 20)
+        self.check_apple_eaten()
+        self.check_gameover()
+        self.snake.run()
 
 if __name__=='__main__':
     game = Game()
