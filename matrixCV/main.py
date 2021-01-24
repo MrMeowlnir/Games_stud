@@ -5,7 +5,7 @@ RESOLUTION = 1920, 1080
 std_red, std_blue = 0, 0
 
 class Matrix:
-    def __init__(self, app, font_size = 12):
+    def __init__(self, app, font_size = 8):
         self.app = app
         self.FONT_SIZE = font_size
         self.SIZE = self.ROWS, self.COLS = app.HEIGHT // font_size, app.WIDTH // font_size
@@ -17,7 +17,7 @@ class Matrix:
         self.cols_speed = np.random.randint(0, 200, size = self.SIZE)
         self.prerendered_chars = self.get_prerendered_chars()
 
-        self.image = self.get_image('image3.jpg')
+        self.image = self.get_image('matrixCV/image3.jpg')
 
     def get_image(self, path_to_file):
         image = pg.image.load(path_to_file)
