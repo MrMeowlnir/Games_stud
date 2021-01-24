@@ -36,7 +36,7 @@ surface = pg.Surface(RES)
 surface.set_alpha(alpha_value)
 clock = pg.time.Clock()
 fps = 60
-pg.mixer.music.load('music.mp3')
+pg.mixer.music.load('matrix/music.mp3')
 pg.mixer.music.set_volume(0.2)
 pg.mixer.music.play()
 
