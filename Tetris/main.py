@@ -52,7 +52,21 @@ def check_floor():
         return False
     return True
 
+def get_record():
+    try:
+        with open('record') as f:
+            return f.readline()
+    except FileNotFoundError:
+        with open('record', 'w') as f:
+            f.write('0')
+            return 0
+def set_record(record, score):
+    rec = max(int(record), score)
+    with open('record', 'w') as f:
+        f.write(str(rec))
+
 while True:
+    record = get_record()
     dx, rotate = 0, False
     sc.fill(pygame.Color('lightblue'))
     sc.blit(game_sc, (20, 20))
@@ -150,11 +164,18 @@ while True:
             (title['x'] + 50, title['y'] + 650))
     sc.blit(font.render(str(score), True, add_font_color),
             (title['x'] + 90, title['y'] + 710))
+
+    sc.blit(font.render('RECORD', True, main_font_color),
+            (title['x'] + 50, title['y'] + 450))
+    sc.blit(font.render(str(record), True, add_font_color),
+            (title['x'] + 90, title['y'] + 510))
+
     pygame.display.flip()
 
     #gameover
     for i in range(W):
         if field[0][i]:
+            set_record(record, score)
             field = [[0 for i in range(W)] for j in range(H + 1)]
             anim_count, anim_speed, anim_limit = 0, 10, 2000
             score, lines = 0, 0
