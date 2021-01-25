@@ -18,8 +18,8 @@ class Symbol:
 
 class SymbolColumn:
     def __init__(self, x, y):
-        self.column_height = randrange(8, 18)
-        self.speed = randrange(2, 6)
+        self.column_height = randrange(8, 28)
+        self.speed = randrange(1, 4)
         self.symbols = [Symbol(x, i, self.speed) for i in range(y, y - FONT_SIZE * self.column_height, -FONT_SIZE)]
 
     def draw(self):
