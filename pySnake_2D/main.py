@@ -20,11 +20,11 @@ sc = pygame.display.set_mode([RES, RES])
 clock = pygame.time.Clock()
 font_score = pygame.font.SysFont('Arial', 26, bold = True)
 font_end = pygame.font.SysFont('Arial', 48, bold = True)
-img = pygame.image.load('landscape.jpeg').convert()
-eat_sound = pygame.mixer.Sound('eat.mp3')
-gameover_sound = pygame.mixer.Sound('gameover.mp3')
+img = pygame.image.load().convert()
 
-pygame.mixer.music.load('music.wav')
+gameover_sound = pygame.mixer.Sound('pySnake_2D/gameover.mp3')
+
+pygame.mixer.music.load('pySnake_2D/music.wav')
 pygame.mixer.music.set_volume(0.4)
 pygame.mixer.music.play(loops = -1)
 while True:
