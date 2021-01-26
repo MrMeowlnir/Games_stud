@@ -69,7 +69,10 @@ class Field():
     #draw method
     def draw(self):
         #print backprint
-        self.scene.fill((40, 40, 40)) # or fill the field with black
+        self.scene.fill((30, 30, 30)) # or fill the field with black
+        [(pygame.draw.rect(self.scene, (20, 20, 20),
+                           (i * self.SIZE, j * self.SIZE,
+                            self.SIZE, self.SIZE), 1)) for i in range(self.W) for j in range(self.H)]
         #print score
         render_score = self.font_score.render(f'SCORE: {self.score}', 1,
                                                 pygame.Color('darkorange'))
