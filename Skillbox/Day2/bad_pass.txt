@@ -1,25 +1,4 @@
-import random
-
-def goodgen(length):
-    
-    # 1 задать алфавит
-    alphabet = 'abcdefghijklmnopqrstuvwxyz'
-    alphabet = alphabet + alphabet.upper() + '0123456789' + '!@#$%^&*()'
-    # 2 сгенерировать символ из алфавита случайно
-    # 3 повторить операцию 2 length раз
-    # 4 склеить в строку выбранные символы и выдать результат
-    '''
-    password = ''
-    for i in range(length):
-        password += random.choice(alphabet)
-
-    #password = [random.choice(alphabet) for i in range(length)]
-    return password
-    '''
-    return ''.join(random.choices(alphabet, k = length))
-
-
-pass_data = '''password
+password
 123456
 12345678
 1234
@@ -10018,20 +9997,4 @@ eighty
 epson
 evangeli
 eeeee1
-eyphed'''
-popular_pass = pass_data.split('\n')
-i = 0
-
-def badgen():
-    global i
-    if i >= len(popular_pass):
-        return
-
-    password = popular_pass[i]
-    i += 1
-    return password
-
-for i in range(100):
-    print(i,' = ',badgen())
-
-
+eyphed
