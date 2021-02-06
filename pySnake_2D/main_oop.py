@@ -2,9 +2,6 @@ import pygame
 from random import randrange
 
 
-# import sys
-
-
 class Snake:
     def __init__(self, field, head=(0, 0), length=1, speed=5, eat_sound='pySnake_2D/eat.mp3'):  # eat_sound (Cap!)
         self.scene = field.scene
