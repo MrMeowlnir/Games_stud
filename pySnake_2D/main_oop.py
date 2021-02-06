@@ -74,7 +74,6 @@ class Field:
         self.scene.blit(render_score, (5, 5))
 
 
-# class Apple (Cap!)
 class Apple:
     def __init__(self, field):  # link with game field object
         self.scene = field.scene
