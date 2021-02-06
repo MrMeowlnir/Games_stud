@@ -3,7 +3,7 @@ from random import randrange
 
 
 class Snake:
-    def __init__(self, field, head=(0, 0), length=1, speed=5, eat_sound='pySnake_2D/eat.mp3'):  # eat_sound (Cap!)
+    def __init__(self, field, head=(0, 0), length=1, speed=5, eat_sound='eat.mp3'):  # eat_sound (Cap!)
         self.scene = field.scene
         self.SIZE = field.SIZE  # Size of 1 square
         self.head = head
@@ -52,11 +52,11 @@ class Snake:
 class Field:
     def __init__(self, score=0,
                  size=25,  # size of 1 square
-                 W=30, H=20):  # number of squares Width + Height
+                 w=30, h=20):  # number of squares Width + Height
 
         self.SIZE = size
-        self.W, self.H = W, H
-        self.RES = [W * size, H * size]
+        self.W, self.H = w, h
+        self.RES = [w * size, h * size]
         self.font_score = pygame.font.SysFont('Arial', 26, bold=True)
         self.scene = pygame.display.set_mode(self.RES)
         self.score = score
@@ -97,9 +97,9 @@ class Apple:
 
 
 class Game:
-    def __init__(self, gameW=46, gameH=27, gameSIZE=25):
-        self.W, self.H, self.SIZE = gameW, gameH, gameSIZE
-        self.field = Field(size=self.SIZE, W=self.W, H=self.H)
+    def __init__(self, game_width=46, game_height=27, tile_size=25):
+        self.W, self.H, self.SIZE = game_width, game_height, tile_size
+        self.field = Field(size=self.SIZE, w=self.W, h=self.H)
         rand_head = (randrange(0, self.field.W),
                      randrange(0, self.field.H))
         self.snake = Snake(self.field, head=rand_head)
@@ -130,18 +130,18 @@ class Game:
             self.snake.speed += 1
 
         # Game over execution
-        A = len(self.snake.body) != len(set(self.snake.body))
-        B1 = self.snake.head[0] > self.field.W - 1
-        B2 = self.snake.head[0] < 0
-        B = B1 or B2
-        C1 = self.snake.head[1] > self.field.H - 1
-        C2 = self.snake.head[1] < 0
-        C = C1 or C2
+        check_collision_body = len(self.snake.body) != len(set(self.snake.body))
+        check_collision_border_right = self.snake.head[0] > self.field.W - 1
+        check_collision_border_left = self.snake.head[0] < 0
+        check_border = check_collision_border_right or check_collision_border_left
+        check_collision_border_up = self.snake.head[1] > self.field.H - 1
+        check_collision_border_down = self.snake.head[1] < 0
+        check_updown = check_collision_border_up or check_collision_border_down
 
-        if A or B or C:
+        if check_collision_body or check_border or check_updown:
             game_over = True
             try:
-                pygame.mixer.Sound('pySnake_2D/gameover.mp3').play()
+                pygame.mixer.Sound('gameover.mp3').play()
             except Exception:
                 pass
 
@@ -164,12 +164,12 @@ class Game:
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
                             game_over = False
-                            self.field = Field(size=self.SIZE, W=self.W, H=self.H)
+                            self.field = Field(size=self.SIZE, w=self.W, h=self.H)
                             rand_head = (randrange(0, self.field.W),
                                          randrange(0, self.field.H))
                             self.snake = Snake(self.field, head=rand_head)
                             self.apple = Apple(self.field)
-                            self.dirs = {'W': True, 'S': True, 'D': True, 'A': True, }
+                            self.dirs = {'W': True, 'S': True, 'D': True, 'check_collision_body': True, }
                             self.dir = 0
                         if event.key == pygame.K_ESCAPE:
                             pygame.quit()
@@ -224,6 +224,6 @@ class Game:
 
 if __name__ == '__main__':
     pygame.init()
-    game = Game(gameW=16 * 5, gameH=9 * 5, gameSIZE=20)
+    game = Game(game_width=16 * 5, game_height=9 * 5, tile_size=20)
     while True:
         game.core()
